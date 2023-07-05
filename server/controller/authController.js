@@ -1,13 +1,14 @@
-const formidable = require('formidable');
-const validator = require('validator');
-const registerModel = require('../models/authModel');
-const fs = require('fs');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const console = require('console');
- 
+import formidable from 'formidable';
+import validator from 'validator';
+import registerModel from "../models/authModel.js"
+import fs from "fs"
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken";
 
-module.exports.userRegister = (req, res) => {
+import console from 'console';
+
+
+export const userRegister = (req, res) => {
 
      const form = formidable();
      form.parse(req, async (err, fields, files) => {
@@ -87,11 +88,11 @@ module.exports.userRegister = (req, res) => {
                               expiresIn: "7d"
                          }); 
 
-const options = { expires : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 )}
+                         const options = { expires : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 )}
 
-     res.status(201).cookie('authToken',token, options).json({
-          successMessage : 'Your Register Successful',token
-     })
+                         res.status(201).cookie('authToken',token, options).json({
+                              successMessage : 'Your Register Successful',token
+                         })
 
                           
                     } else {
@@ -120,7 +121,7 @@ const options = { expires : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 )}
     
 }
 
-module.exports.userLogin = async (req,res) => {
+export const userLogin = async (req,res) => {
       const error = [];
       const {email,password} = req.body;
       if(!email){
@@ -192,7 +193,7 @@ module.exports.userLogin = async (req,res) => {
 
 }
 
-module.exports.userLogout = (req,res) => {
+export const userLogout = (req,res) => {
      res.status(200).cookie('authToken', '').json({
           success : true
      })

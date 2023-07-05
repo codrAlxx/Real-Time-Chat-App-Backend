@@ -4,7 +4,7 @@ import http from "http"
 
 import databaseConnect from "./config/database.js"
 import authRouter from "./routes/authRoute.js"
-import uploadRouter from "./routes/uploadRoutes.js"
+// import uploadRouter from "./routes/uploadRoutes.js"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import cors from "cors"
@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/api/messenger',authRouter);
 app.use('/api/messenger',messengerRouter);
-app.use('/api/upload',uploadRouter);
+// app.use('/api/upload',uploadRouter);
 
 const PORT = 5050
 
