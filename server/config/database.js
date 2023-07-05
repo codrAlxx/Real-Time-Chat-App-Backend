@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const databaseConnect = () => {
-     mongoose.connect("mongodb://localhost:27017",{
+     mongoose.connect("mongodb+srv://alok08jha:PVbFcrlx78s1xLHu@cluster0.3bgvpp6.mongodb.net/?retryWrites=true&w=majority",{
           useNewUrlParser : true,
           useUnifiedTopology : true
      }).then(()=>{
