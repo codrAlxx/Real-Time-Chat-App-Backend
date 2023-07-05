@@ -1,34 +1,52 @@
-const express = require('express');
+import express from "express"
+
+import http from "http"
+
+import databaseConnect from "./config/database.js"
+import authRouter from "./routes/authRoute.js"
+import uploadRouter from "./routes/uploadRoutes.js"
+import bodyParser from "body-parser"
+import cookieParser from "cookie-parser"
+import cors from "cors"
+import messengerRouter from "./routes/messengerRoute.js"
+
+import { createServer } from "http";
+import { Server } from "socket.io";
+
+
 const app = express();
-http = require('http');
 
-const databaseConnect = require('./config/database')
-const authRouter = require('./routes/authRoute')
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const messengerRoute = require('./routes/messengerRoute');
-const { Server } = require('socket.io'); // Add this
-
-
-app.use(cors());
+app.use(cors({
+     origin: '*'
+ }));
 const server = http.createServer(app); // Add this
 
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/api/messenger',authRouter);
-app.use('/api/messenger',messengerRoute);
-
+app.use('/api/messenger',messengerRouter);
+app.use('/api/upload',uploadRouter);
 
 const PORT = 5050
 
 
-const io = require('socket.io')(8000,{
+const httpServer = createServer();
+const io = new Server(httpServer, {
      cors : {
           origin : '*',
           methods : ['GET','POST']
      }
-})
+});
+
+
+
+
+// const io = require('socket.io')(8000,{
+//      cors : {
+//           origin : '*',
+//           methods : ['GET','POST']
+//      }
+// })
  
 let users = [];
 const addUser = (userId,socketId,userInfo) => {
@@ -129,7 +147,7 @@ app.get('/', (req, res)=>{
 })
 
 
-
+httpServer.listen(8000);
 databaseConnect();
 
 app.listen(PORT, ()=>{
